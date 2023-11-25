@@ -45,6 +45,7 @@ const Gallery = ({ users }: GalleryProps) => {
             key={index}
             onClick={() => handleModalOpen(user.id)}
           >
+        
             <div className="body">
               <Avatar
                 size={96}
@@ -89,17 +90,17 @@ const Gallery = ({ users }: GalleryProps) => {
                     />
                   </div>
                   <div className="name">
-                    {selectedUser.name} ({selectedUser.username})
+                    {selectedUser.name} ({selectedUser.username}) 
                   </div>
                   <div className="field">
                     <FaLocationDot className="icon" />
-                    <div className="data">{`${selectedUser.address.street}, ${selectedUser.address.suite}, ${selectedUser.address.city}`}</div>
+                    <div className="value">{`${selectedUser.address.street}, ${selectedUser.address.suite}, ${selectedUser.address.city}`}</div>
                   </div>
                   <div className="field">
                     <FaPhone className="icon" />
                     <div className="value">{selectedUser.phone}</div>
                   </div>
-                  <div className="fields">
+                  <div className="field">
                     <FaEnvelope className="icon" />
                     <div className="value">{selectedUser.email}</div>
                   </div>
