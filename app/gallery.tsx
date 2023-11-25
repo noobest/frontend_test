@@ -1,43 +1,74 @@
-"use client";
+"use client"
 
-import { useState } from "react";
-import Avatar from "boring-avatars";
+import { useState } from "react"
+import Avatar from "boring-avatars"
 import {
   FaRegCircleXmark,
   FaLocationDot,
   FaPhone,
   FaEnvelope,
-} from "react-icons/fa6";
+} from "react-icons/fa6"
 
-import Modal from "./modal";
+import Controls from "./controls"
+import Modal from "./modal"
 
-import { User } from "./types/user";
-
+import { User } from "./types/user"
 export type GalleryProps = {
-  users: User[];
-};
+  users: User[]
+}
 const Gallery = ({ users }: GalleryProps) => {
-  const [usersList, setUsersList] = useState(users);
-  const [selectedUser, setSelectedUser] = useState<User | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [usersList, setUsersList] = useState(users)
+  const [selectedUser, setSelectedUser] = useState<User | null>(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   const handleModalOpen = (id: number) => {
-    const user = usersList.find((item) => item.id === id) || null;
+    const user = usersList.find((item) => item.id === id) || null
 
-    if(user) {
-      setSelectedUser(user);
-      setIsModalOpen(true);
+    if (user) {
+      setSelectedUser(user)
+      setIsModalOpen(true)
     }
-  };
+  }
 
   const handleModalClose = () => {
-    setSelectedUser(null);
-    setIsModalOpen(false);
-  };
+    setSelectedUser(null)
+    setIsModalOpen(false)
+  }
+
+  //function to sort field and direction
+  const sortUsers = (field: string, direction: string) => {
+    const sortedUsers = [...usersList].sort((a, b) => {
+      const aValue: any = a[field as keyof User]
+      const bValue: any = b[field as keyof User]
+
+      if (field === "company") {
+        if (aValue.name < bValue.name) {
+          return direction === "ascending" ? -1 : 1
+        }
+        if (aValue.name > bValue.name) {
+          return direction === "ascending" ? 1 : -1
+        }
+      } else {
+        if (aValue < bValue) {
+          return direction === "ascending" ? -1 : 1
+        }
+        if (aValue > bValue) {
+          return direction === "ascending" ? 1 : -1
+        }
+      }
+
+      return 0
+    })
+
+    setUsersList(sortedUsers)
+  }
 
   return (
     <div className="user-gallery">
-      <h1 className="heading">Users</h1>
+      <div className="heading">
+        <h1 className="title">Users</h1>
+        <Controls onSortChange={sortUsers} />
+      </div>
       <div className="items">
         {usersList.map((user, index) => (
           <div
@@ -116,7 +147,7 @@ const Gallery = ({ users }: GalleryProps) => {
         </Modal>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Gallery;
+export default Gallery
